@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #11261A;
+  --color-secondary: #0A1810; /* Darker, more grounded green for depth */
+  --color-accent: #F2CD13;
+  --color-highlight: #D9D059;
+
+  --font-montserrat: var(--font-montserrat);
+  --font-jakarta: var(--font-plus-jakarta);
+
+  /* Emerald Estate Gradients — Refined for premium contrast */
+  --bg-gradient-premium: linear-gradient(135deg, #11261A 0%, #0A1810 100%);
+  --bg-gradient-accent: linear-gradient(135deg, #F2CD13 0%, #D9D059 50%, #F2CD13 100%);
+  --bg-gradient-glass: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+
+  @keyframes pulse-subtle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+  }
+
+  --animate-pulse-subtle: pulse-subtle 3s ease-in-out infinite;
+}
+
+:root {
+  --background: #f8fafc;
+  --foreground: #11261A;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.gradient-bg {
+  background-image: var(--bg-gradient-premium);
+}
+
+.accent-gradient-bg {
+  background-image: var(--bg-gradient-accent);
+}
+
+/* Premium global overrides */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Decorative accent underline used in editorial headings */
+.accent-underline {
+  border-bottom: 2px solid #F2CD13;
+  padding-bottom: 2px;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
