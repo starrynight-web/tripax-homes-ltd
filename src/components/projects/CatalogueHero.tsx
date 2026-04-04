@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export default function CatalogueHero() {
   return (
@@ -15,22 +14,12 @@ export default function CatalogueHero() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4">
-        <RevealHeading
-          tag="h1"
-          className="text-3xl md:text-5xl font-bold font-montserrat text-white tracking-tight uppercase mb-4"
-          color="#11261A"
-          delay={0.1}
-        >
+        <h1 className="text-3xl md:text-5xl font-bold font-montserrat text-white tracking-tight uppercase mb-4">
           Our Projects
-        </RevealHeading>
-        <RevealHeading
-          tag="p"
-          className="text-white/80 text-lg md:text-xl font-sans max-w-2xl mx-auto"
-          color="#F2CD13"
-          delay={0.3}
-        >
+        </h1>
+        <p className="text-white/80 text-lg md:text-xl font-sans max-w-2xl mx-auto">
           Discover a curated portfolio of refined living and commercial excellence.
-        </RevealHeading>
+        </p>
       </div>
 
       {/* Decorative Gradient overlay */}

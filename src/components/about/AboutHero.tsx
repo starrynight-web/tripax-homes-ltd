@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export default function AboutHero() {
   return (
@@ -16,14 +15,9 @@ export default function AboutHero() {
       </div>
 
       <div className="relative z-10 text-center px-4">
-        <RevealHeading
-          tag="h1"
-          className="text-3xl md:text-5xl font-montserrat font-bold text-white mb-4 tracking-tight drop-shadow-lg uppercase"
-          color="#11261A"
-          delay={0.2}
-        >
+        <h1 className="text-3xl md:text-5xl font-montserrat font-bold text-white mb-4 tracking-tight drop-shadow-lg uppercase">
           About Us
-        </RevealHeading>
+        </h1>
         <div className="w-24 h-1 bg-accent mx-auto" />
       </div>
     </section>

@@ -70,7 +70,7 @@ export function Footer() {
         {/* Bottom Section: Copyright */}
         <div className="border-t border-white/10 pt-8 mt-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[10px] sm:text-xs font-jakarta tracking-wider text-white/50 uppercase">
-            &copy; {new Date().getFullYear()} Tripax Homes Ltd. All Rights Reserved. Designed & Developed by Antigravity
+            &copy; {new Date().getFullYear()} Tripax Homes Ltd. All Rights Reserved.
           </p>
           <p className="text-[10px] sm:text-xs font-jakarta tracking-wider text-white/50 uppercase">
             A project of <a href="https://www.unleft.space" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">UNLEFT</a>

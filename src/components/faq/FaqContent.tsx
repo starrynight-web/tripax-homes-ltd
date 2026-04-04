@@ -117,7 +117,7 @@ export default function FaqContent() {
               <div key={cat.id} id={cat.id} className="scroll-mt-32">
                 <RevealHeading
                   tag="h2"
-                  className="text-2xl font-montserrat font-bold text-primary mb-10 uppercase tracking-wide border-l-4 border-accent pl-6"
+                  className="text-2xl font-montserrat font-bold text-primary mb-10 uppercase tracking-wide border-l-8 border-accent pl-6"
                   color="#11261A"
                   delay={0.2}
                 >

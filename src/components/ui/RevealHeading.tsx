@@ -32,7 +32,7 @@ export function RevealHeading({
           ease: [0.165, 0.84, 0.44, 1],
         }}
       >
-        <Tag className={className}>{children}</Tag>
+        <Tag>{children}</Tag>
       </motion.div>
 
       {/* The Revelator Box */}
