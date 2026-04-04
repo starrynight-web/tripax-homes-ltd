@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Quote } from "lucide-react";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export default function ChairmanMessage() {
   return (
@@ -8,12 +9,22 @@ export default function ChairmanMessage() {
         {/* Intro */}
         <div className="flex flex-col md:flex-row items-center gap-12 mb-20">
           <div className="w-full md:w-1/2 space-y-4">
-            <h4 className="text-accent font-semibold tracking-wider uppercase text-sm">
+            <RevealHeading
+              tag="h4"
+              className="text-accent font-semibold tracking-wider uppercase text-sm"
+              color="#F2CD13"
+              delay={0.1}
+            >
               Leadership
-            </h4>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+            </RevealHeading>
+            <RevealHeading
+              tag="h2"
+              className="text-4xl md:text-5xl font-bold text-gray-900"
+              color="#11261A"
+              delay={0.3}
+            >
               Message from the Chairman
-            </h2>
+            </RevealHeading>
             <div className="w-20 h-1 bg-accent rounded-full" />
           </div>
           <div className="w-full md:w-1/2">

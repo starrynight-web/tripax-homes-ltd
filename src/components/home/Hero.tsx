@@ -1,24 +1,15 @@
 "use client";
-
 import React from "react";
 import { motion } from "motion/react";
 import { ArrowRight, Play } from "lucide-react";
 import Link from "next/link";
+import { HeroCarousel } from "./HeroCarousel";
 
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-end pb-20 overflow-hidden bg-primary">
-      {/* Background: full-viewport image with dark overlay */}
-      <div className="absolute inset-0 z-0">
-        {/* Dark gradient overlay — heavier on left so text reads cleanly */}
-        <div className="absolute inset-0 bg-linear-to-r from-primary/90 via-primary/60 to-primary/20 z-10" />
-        <div className="absolute inset-0 bg-linear-to-t from-primary via-transparent to-transparent z-10" />
-        {/* Hero background image */}
-        <div
-          className="w-full h-full bg-[url('https://images.unsplash.com/photo-1545324418-f1d3ac157490?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center"
-          style={{ backgroundPosition: "center 40%" }}
-        />
-      </div>
+      {/* Background: Hero Carousel with parallax elements */}
+      <HeroCarousel />
 
       {/* Bottom navigation bar — Edison style project nav */}
       <div className="absolute bottom-0 left-0 right-0 z-30 bg-primary/80 backdrop-blur-md border-t border-white/5">
@@ -78,7 +69,7 @@ export function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
             className="text-sm md:text-base text-slate-300/80 font-jakarta leading-relaxed mb-10 max-w-lg"
           >
             From flagship residential projects to exclusive land development
@@ -90,7 +81,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.65 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
             className="flex flex-col sm:flex-row items-start gap-5"
           >
             <Link
@@ -113,29 +104,7 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Hero Stats — Now inside the container to align with right edge */}
-        <div className="hidden lg:flex absolute bottom-24 right-6 gap-12 z-20 pointer-events-auto">
-          {[
-            { label: "Years of Legacy", val: "15+" },
-            { label: "Signature Projects", val: "42" },
-            { label: "Happy Families", val: "1200+" },
-          ].map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.9 + i * 0.12 }}
-              className="text-right"
-            >
-              <div className="text-4xl font-montserrat font-extrabold text-white leading-none mb-1">
-                {stat.val}
-              </div>
-              <div className="text-[9px] font-jakarta font-bold text-accent tracking-[0.22em] uppercase">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <div className="hidden lg:flex absolute bottom-24 right-6 gap-12 z-20 pointer-events-auto" />
       </div>
 
     </section>

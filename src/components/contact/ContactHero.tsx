@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export default function ContactHero() {
   return (
@@ -18,12 +19,22 @@ export default function ContactHero() {
 
       {/* Title Content */}
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <p className="text-accent font-montserrat font-bold text-xs tracking-[0.4em] uppercase mb-6 drop-shadow-md">
+        <RevealHeading
+          tag="p"
+          className="text-accent font-montserrat font-bold text-xs tracking-[0.4em] uppercase mb-6 drop-shadow-md"
+          color="#F2CD13"
+          delay={0.1}
+        >
           Get in Touch
-        </p>
-        <h1 className="text-3xl md:text-5xl font-montserrat font-bold text-white mb-8 tracking-tight drop-shadow-xl uppercase">
+        </RevealHeading>
+        <RevealHeading
+          tag="h1"
+          className="text-3xl md:text-5xl font-montserrat font-bold text-white mb-8 tracking-tight drop-shadow-xl uppercase"
+          color="#11261A"
+          delay={0.3}
+        >
           Contact Us
-        </h1>
+        </RevealHeading>
         <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-lg" />
       </div>
     </section>

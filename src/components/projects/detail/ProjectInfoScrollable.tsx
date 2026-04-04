@@ -1,6 +1,7 @@
 import { Project } from "@/data/projectsMock";
 import Link from "next/link";
 import { MapPin, FileText, ChevronRight } from "lucide-react";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export default function ProjectInfoScrollable({ project }: { project: Project }) {
   return (
@@ -16,16 +17,31 @@ export default function ProjectInfoScrollable({ project }: { project: Project })
 
       {/* Header Info */}
       <div className="mb-10">
-        <div className="inline-block px-3 py-1 bg-accent/10 border border-accent/20 text-primary text-xs font-bold uppercase tracking-wider rounded-full mb-4">
+        <RevealHeading
+          tag="div"
+          className="inline-block px-3 py-1 bg-accent/10 border border-accent/20 text-primary text-xs font-bold uppercase tracking-wider rounded-full mb-4"
+          color="#F2CD13"
+          delay={0.1}
+        >
           {project.category}
-        </div>
-        <h1 className="text-4xl md:text-5xl font-bold font-heading text-secondary mb-2">
+        </RevealHeading>
+        <RevealHeading
+          tag="h1"
+          className="text-4xl md:text-5xl font-bold font-heading text-secondary mb-2"
+          color="#11261A"
+          delay={0.3}
+        >
           {project.title}
-        </h1>
+        </RevealHeading>
         {project.subtitle && (
-          <h2 className="text-xl md:text-2xl text-accent font-heading mb-4">
+          <RevealHeading
+            tag="h2"
+            className="text-xl md:text-2xl text-accent font-heading mb-4"
+            color="#F2CD13"
+            delay={0.5}
+          >
             {project.subtitle}
-          </h2>
+          </RevealHeading>
         )}
         <div className="flex items-start text-gray-600">
           <MapPin className="w-5 h-5 mr-2 mt-0.5 shrink-0 text-primary" />
@@ -35,9 +51,14 @@ export default function ProjectInfoScrollable({ project }: { project: Project })
 
       {/* Overview */}
       <div className="mb-12">
-        <h3 className="text-2xl font-bold font-heading text-secondary mb-4 border-b border-gray-100 pb-2">
+        <RevealHeading
+          tag="h3"
+          className="text-2xl font-bold font-heading text-secondary mb-4 border-b border-gray-100 pb-2"
+          color="#11261A"
+          delay={0.2}
+        >
           Overview
-        </h3>
+        </RevealHeading>
         <p className="text-gray-600 leading-relaxed text-lg">
           {project.overview}
         </p>
@@ -45,9 +66,14 @@ export default function ProjectInfoScrollable({ project }: { project: Project })
 
       {/* Progress */}
       <div className="mb-12">
-        <h3 className="text-2xl font-bold font-heading text-secondary mb-4 border-b border-gray-100 pb-2">
+        <RevealHeading
+          tag="h3"
+          className="text-2xl font-bold font-heading text-secondary mb-4 border-b border-gray-100 pb-2"
+          color="#11261A"
+          delay={0.2}
+        >
           Project Progress
-        </h3>
+        </RevealHeading>
         <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
           <div className="flex justify-between items-end mb-2">
             <span className="font-semibold text-gray-700">Completion</span>
@@ -64,9 +90,14 @@ export default function ProjectInfoScrollable({ project }: { project: Project })
 
       {/* Specifications */}
       <div className="mb-12">
-        <h3 className="text-2xl font-bold font-heading text-secondary mb-4 border-b border-gray-100 pb-2">
+        <RevealHeading
+          tag="h3"
+          className="text-2xl font-bold font-heading text-secondary mb-4 border-b border-gray-100 pb-2"
+          color="#11261A"
+          delay={0.2}
+        >
           Specifications
-        </h3>
+        </RevealHeading>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {Object.entries(project.specs).map(([key, value]) => {
             // Convert camelCase to Title Case for label

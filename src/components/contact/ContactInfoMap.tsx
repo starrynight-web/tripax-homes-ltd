@@ -1,6 +1,7 @@
 import React from "react";
 import { MapPin, Phone, MessageCircle, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export default function ContactInfoMap() {
   const contactDetails = [
@@ -42,13 +43,23 @@ export default function ContactInfoMap() {
           {/* Left Side: Contact details */}
           <div className="space-y-12">
             <div>
-              <p className="text-secondary font-montserrat font-bold text-xs tracking-[0.3em] uppercase mb-4">
+              <RevealHeading
+                tag="p"
+                className="text-secondary font-montserrat font-bold text-xs tracking-[0.3em] uppercase mb-4"
+                color="#F2CD13"
+                delay={0.1}
+              >
                 Keep in Touch
-              </p>
-              <h2 className="text-2xl md:text-3xl font-montserrat font-bold text-primary leading-tight mb-6 uppercase tracking-wide">
+              </RevealHeading>
+              <RevealHeading
+                tag="h2"
+                className="text-2xl md:text-3xl font-montserrat font-bold text-primary leading-tight mb-6 uppercase tracking-wide"
+                color="#11261A"
+                delay={0.3}
+              >
                 Reach out to us for <br />
                 <span className="text-accent">personalized consultations</span>
-              </h2>
+              </RevealHeading>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">

@@ -1,4 +1,5 @@
 import { Target, Eye, Shield, Users, Heart, BookOpen, TrendingUp } from "lucide-react";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 const values = [
   {
@@ -38,7 +39,14 @@ export default function MissionVisionValues() {
                 <div className="p-3 bg-secondary rounded-lg">
                   <Target className="w-6 h-6 text-accent" />
                 </div>
-                <h3 className="text-3xl font-bold">Purpose</h3>
+                <RevealHeading
+                  tag="h3"
+                  className="text-3xl font-bold"
+                  color="#F2CD13"
+                  delay={0.1}
+                >
+                  Purpose
+                </RevealHeading>
               </div>
               <p className="text-white/80 text-lg leading-relaxed">
                 To elevate the living standards of our customers and bring them
@@ -57,7 +65,14 @@ export default function MissionVisionValues() {
                 <div className="p-3 bg-primary/5 rounded-lg">
                   <Eye className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">Vision</h3>
+                <RevealHeading
+                  tag="h3"
+                  className="text-3xl font-bold text-gray-900"
+                  color="#11261A"
+                  delay={0.1}
+                >
+                  Vision
+                </RevealHeading>
               </div>
               <p className="text-gray-600 text-lg leading-relaxed">
                 To emerge as the most trusted, respected, and premier real estate
@@ -69,8 +84,22 @@ export default function MissionVisionValues() {
 
         {/* Values Grid */}
         <div className="text-center mb-12">
-          <h3 className="text-sm font-bold tracking-widest text-accent uppercase mb-2">Our Foundation</h3>
-          <h2 className="text-3xl md:text-5xl font-bold text-primary">Core Values</h2>
+          <RevealHeading
+            tag="h3"
+            className="text-sm font-bold tracking-widest text-accent uppercase mb-2"
+            color="#F2CD13"
+            delay={0.1}
+          >
+            Our Foundation
+          </RevealHeading>
+          <RevealHeading
+            tag="h2"
+            className="text-3xl md:text-5xl font-bold text-primary"
+            color="#11261A"
+            delay={0.3}
+          >
+            Core Values
+          </RevealHeading>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">

@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 const faqData = [
   {
@@ -90,9 +91,14 @@ export default function FaqContent() {
           {/* Sidebar Navigation */}
           <aside className="lg:w-1/4">
             <nav className="sticky top-32 space-y-2">
-              <p className="text-secondary font-montserrat font-bold text-[10px] tracking-[0.4em] uppercase mb-6 opacity-60">
+              <RevealHeading
+                tag="p"
+                className="text-secondary font-montserrat font-bold text-[10px] tracking-[0.4em] uppercase mb-6 opacity-60"
+                color="#11261A"
+                delay={0.1}
+              >
                 Categories
-              </p>
+              </RevealHeading>
               {faqData.map((cat) => (
                 <a
                   key={cat.id}
@@ -109,9 +115,14 @@ export default function FaqContent() {
           <div className="lg:w-3/4 space-y-24">
             {faqData.map((cat) => (
               <div key={cat.id} id={cat.id} className="scroll-mt-32">
-                <h2 className="text-2xl font-montserrat font-bold text-primary mb-10 uppercase tracking-wide border-l-4 border-accent pl-6">
+                <RevealHeading
+                  tag="h2"
+                  className="text-2xl font-montserrat font-bold text-primary mb-10 uppercase tracking-wide border-l-4 border-accent pl-6"
+                  color="#11261A"
+                  delay={0.2}
+                >
                   {cat.category}
-                </h2>
+                </RevealHeading>
                 <Accordion type="single" collapsible className="w-full space-y-4">
                   {cat.questions.map((item, idx) => (
                     <AccordionItem 

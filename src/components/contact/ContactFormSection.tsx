@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Send, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { RevealHeading } from "@/components/ui/RevealHeading";
+
 export default function ContactFormSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -33,13 +35,23 @@ export default function ContactFormSection() {
             />
             <div className="absolute inset-0 bg-primary/40 mix-blend-multiply" />
             <div className="absolute inset-x-8 bottom-12 z-10 text-white">
-                <p className="font-montserrat font-bold text-xs tracking-[0.3em] uppercase mb-4 opacity-80">
+                <RevealHeading
+                  tag="p"
+                  className="font-montserrat font-bold text-xs tracking-[0.3em] uppercase mb-4 opacity-80"
+                  color="#F2CD13"
+                  delay={0.1}
+                >
                     Trusted by many
-                </p>
-                <h3 className="text-3xl font-montserrat font-bold uppercase leading-tight mb-4 tracking-tight">
+                </RevealHeading>
+                <RevealHeading
+                  tag="h3"
+                  className="text-3xl font-montserrat font-bold uppercase leading-tight mb-4 tracking-tight"
+                  color="#11261A"
+                  delay={0.3}
+                >
                     Experience the <br />
                     <span className="text-accent underline decoration-accent/40 underline-offset-4">Emerald Lifestyle</span>
-                </h3>
+                </RevealHeading>
             </div>
           </div>
 
@@ -64,8 +76,22 @@ export default function ContactFormSection() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
                 <div className="space-y-2">
-                  <span className="text-[10px] font-bold text-accent uppercase tracking-[0.5em] block mb-2">Inquiry Form</span>
-                  <h2 className="text-3xl font-montserrat font-bold text-primary uppercase tracking-tight">Write to Us</h2>
+                  <RevealHeading
+                    tag="span"
+                    className="text-[10px] font-bold text-accent uppercase tracking-[0.5em] block mb-2"
+                    color="#F2CD13"
+                    delay={0.1}
+                  >
+                    Inquiry Form
+                  </RevealHeading>
+                  <RevealHeading
+                    tag="h2"
+                    className="text-3xl font-montserrat font-bold text-primary uppercase tracking-tight"
+                    color="#11261A"
+                    delay={0.3}
+                  >
+                    Write to Us
+                  </RevealHeading>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

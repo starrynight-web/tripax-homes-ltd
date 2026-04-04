@@ -6,6 +6,8 @@ import Link from "next/link";
 import { projectsMock } from "@/data/projectsMock";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
+import { RevealHeading } from "@/components/ui/RevealHeading";
+
 export function FeaturedCarousel() {
   // Use the refined Tripax projects from the main mock data
   const projects = projectsMock;
@@ -14,12 +16,22 @@ export function FeaturedCarousel() {
     <section className="py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-6 mb-12 flex items-end justify-between">
         <div>
-          <p className="text-accent font-montserrat font-bold text-xs tracking-[0.3em] uppercase mb-4">
+          <RevealHeading
+            tag="p"
+            className="text-accent font-montserrat font-bold text-xs tracking-[0.3em] uppercase mb-4"
+            color="#11261A"
+            delay={0.1}
+          >
             Featured Projects
-          </p>
-          <h2 className="text-3xl md:text-4xl font-montserrat font-bold text-primary leading-tight uppercase tracking-wide max-w-2xl">
+          </RevealHeading>
+          <RevealHeading
+            tag="h2"
+            className="text-3xl md:text-4xl font-montserrat font-bold text-primary leading-tight uppercase tracking-wide max-w-2xl"
+            color="#11261A"
+            delay={0.3}
+          >
             Bespoke Enclaves with finesse in architecture and design
-          </h2>
+          </RevealHeading>
         </div>
         {/* Carousel Navigation Arrows */}
         <div className="hidden md:flex gap-4">

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+import { RevealHeading } from "@/components/ui/RevealHeading";
+
 export default function WhoWeAre() {
   return (
     <section className="py-20 bg-white">
@@ -18,12 +20,22 @@ export default function WhoWeAre() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <div className="space-y-6">
-            <div className="inline-block px-4 py-1.5 bg-primary/5 rounded-full text-primary font-medium text-sm mb-2">
+            <RevealHeading
+              tag="p"
+              className="inline-block px-4 py-1.5 bg-primary/5 rounded-full text-primary font-medium text-sm mb-2"
+              color="#11261A"
+              delay={0.1}
+            >
               Our Story
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
+            </RevealHeading>
+            <RevealHeading
+              tag="h2"
+              className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight"
+              color="#11261A"
+              delay={0.3}
+            >
               Who We Are
-            </h2>
+            </RevealHeading>
             <div className="space-y-4 text-gray-600 text-lg">
               <p>
                 <strong>Tripax Group</strong> is a rising local conglomerate in

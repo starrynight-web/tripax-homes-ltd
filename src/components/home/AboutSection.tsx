@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export function AboutSection() {
   return (
@@ -46,15 +47,25 @@ export function AboutSection() {
 
           {/* ── Right: Text Content ── */}
           <div>
-            {/* Gold subtitle — Edison pattern */}
-            <p className="text-accent font-montserrat font-bold text-xs tracking-[0.3em] uppercase mb-4">
+            {/* Gold subtitle — Reveal Effect */}
+            <RevealHeading
+              tag="p"
+              className="text-accent font-montserrat font-bold text-xs tracking-[0.3em] uppercase mb-4"
+              color="#11261A"
+              delay={0.1}
+            >
               About Us
-            </p>
+            </RevealHeading>
 
-            {/* Main heading — Reduced for minimalism */}
-            <h2 className="text-2xl md:text-3xl font-montserrat font-bold text-primary leading-tight mb-6 uppercase tracking-wide">
+            {/* Main heading — Reveal Effect */}
+            <RevealHeading
+              tag="h2"
+              className="text-2xl md:text-3xl font-montserrat font-bold text-primary leading-tight mb-6 uppercase tracking-wide"
+              color="#11261A"
+              delay={0.3}
+            >
               Redefining your standard of living
-            </h2>
+            </RevealHeading>
 
             {/* Body text — Reduced scale */}
             <div className="space-y-4 font-jakarta text-slate-600 leading-relaxed text-justify mb-8 text-sm md:text-base">

@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export function ConsultationCTA() {
   return (
@@ -21,9 +22,14 @@ export function ConsultationCTA() {
 
           {/* Right Form Card */}
           <div className="bg-white p-12 md:p-16 lg:p-20 flex flex-col justify-center">
-            <h2 className="text-2xl md:text-3xl font-montserrat font-bold text-primary uppercase tracking-wider mb-10">
+            <RevealHeading
+              tag="h2"
+              className="text-2xl md:text-3xl font-montserrat font-bold text-primary uppercase tracking-wider mb-10"
+              color="#11261A"
+              delay={0.1}
+            >
               Book A <span className="text-accent">Private</span> Consultation
-            </h2>
+            </RevealHeading>
 
             <form className="space-y-6 form-minimalist">
               <div>
