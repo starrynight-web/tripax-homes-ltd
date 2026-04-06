@@ -5,6 +5,7 @@ import { Hero } from "@/components/home/Hero";
 import { AboutSection } from "@/components/home/AboutSection";
 import { StatsBand } from "@/components/home/StatsBand";
 import { FeaturedCarousel } from "@/components/home/FeaturedCarousel";
+import { Testimonials } from "@/components/home/Testimonials";
 import { ConsultationCTA } from "@/components/home/ConsultationCTA";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
         <AboutSection />
         <StatsBand />
         <FeaturedCarousel />
+        <Testimonials />
         <ConsultationCTA />
       </main>
       <Footer />

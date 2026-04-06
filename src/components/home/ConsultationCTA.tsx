@@ -1,11 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { Phone } from "lucide-react";
 import { RevealHeading } from "@/components/ui/RevealHeading";
 
 export function ConsultationCTA() {
   return (
     <section className="relative py-24 bg-slate-50 overflow-hidden">
-      {/* Subtle topographic background pattern */}
+      {/* Subtle radial background pattern */}
       <div className="absolute inset-0 z-0 opacity-20 bg-[radial-gradient(ellipse_at_center,var(--tw-gradient-stops))] from-accent/20 via-transparent to-transparent pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
@@ -13,11 +15,13 @@ export function ConsultationCTA() {
           {/* Left Image */}
           <div className="relative min-h-100 hidden md:block">
             <Image
-              src="https://images.unsplash.com/photo-1600607687644-aac4c15ceea1?q=80&w=2670&auto=format&fit=crop"
-              alt="Luxurious interior"
+              src="/images/projects/Interior/int_living_room_1775442400972.png"
+              alt="Luxurious apartment interior"
               fill
               className="object-cover"
             />
+            {/* Gradient overlay for elegance */}
+            <div className="absolute inset-0 bg-linear-to-r from-primary/40 to-transparent" />
           </div>
 
           {/* Right Form Card */}
@@ -63,12 +67,26 @@ export function ConsultationCTA() {
                   <option value="evening">Evening (4PM - 7PM)</option>
                 </select>
               </div>
-              <button
-                type="submit"
-                className="mt-6 border border-primary text-primary px-10 py-4 font-montserrat font-bold text-sm tracking-widest uppercase hover:bg-primary hover:text-white transition-colors w-max"
-              >
-                Submit
-              </button>
+
+              {/* Action Buttons Row */}
+              <div className="mt-6 flex flex-col sm:flex-row gap-4 items-start">
+                <button
+                  type="submit"
+                  className="border border-primary text-primary px-10 py-4 font-montserrat font-bold text-sm tracking-widest uppercase hover:bg-primary hover:text-white transition-colors"
+                >
+                  Submit
+                </button>
+
+                {/* Enquire Now — Direct Call Button */}
+                <Link
+                  href="tel:+8801234567890"
+                  className="flex items-center gap-3 px-8 py-4 font-montserrat font-bold text-sm tracking-widest uppercase text-white transition-all hover:opacity-90 hover:scale-105"
+                  style={{ background: "var(--bg-gradient-accent)" }}
+                >
+                  <Phone size={16} />
+                  Enquire Now
+                </Link>
+              </div>
             </form>
           </div>
         </div>

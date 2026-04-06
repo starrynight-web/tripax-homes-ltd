@@ -52,7 +52,7 @@ export function FeaturedCarousel() {
             className="relative shrink-0 w-[85vw] md:w-100 lg:w-112.5 aspect-3/4 snap-center group overflow-hidden bg-slate-100"
           >
             <Image
-              src={project.thumbnail}
+              src={project.homepageThumbnail}
               alt={project.title}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-700"

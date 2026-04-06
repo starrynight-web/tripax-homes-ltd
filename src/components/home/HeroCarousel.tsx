@@ -25,12 +25,7 @@ export function HeroCarousel() {
   }, [emblaApi, onSelect]);
 
   // Project images for the carousel
-  const carouselImages = [
-    "/images/projects/banner.png",
-    "/images/projects/exterior.png",
-    "/images/projects/interior.png",
-    "/images/projects/exterior.png",
-  ];
+  const carouselImages = projectsMock.map(p => p.homepageThumbnail || p.thumbnail).slice(0, 4);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden" ref={emblaRef}>

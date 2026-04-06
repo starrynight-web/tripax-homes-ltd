@@ -2,7 +2,8 @@ import Image from "next/image";
 import { Project } from "@/data/projectsMock";
 
 export default function ProjectGallerySticky({ project }: { project: Project }) {
-  const [mainImage, ...otherImages] = project.gallery;
+  const allImages = [project.homepageThumbnail || project.thumbnail, ...project.gallery];
+  const [mainImage, ...otherImages] = allImages;
 
   return (
     <div className="flex flex-col gap-4 py-8 lg:py-12">
