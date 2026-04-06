@@ -18,6 +18,7 @@ import {
   ShieldAlert,
   Lock,
   Mail,
+  Menu,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -204,6 +205,7 @@ export default function DemoAdminLayout({ children }: { children: React.ReactNod
   const pathname = usePathname();
   const router   = useRouter();
   const [isAuth, setIsAuth] = useState<boolean | null>(null); // null = loading
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     setIsAuth(sessionStorage.getItem(SESSION_KEY) === "true");
@@ -231,10 +233,27 @@ export default function DemoAdminLayout({ children }: { children: React.ReactNod
   // Authenticated — render full admin layout
   return (
     <div className="flex min-h-screen bg-slate-50 font-jakarta">
+
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
-      <aside className="w-72 bg-primary text-white/60 border-r border-white/5 flex flex-col fixed inset-y-0 z-50">
-        <div className="p-8 border-b border-white/5">
-          <Link href="/demo-admin" className="flex items-center gap-3 group">
+      <aside className={cn(
+        "bg-primary text-white/60 border-r border-white/5 flex flex-col fixed inset-y-0 z-50 w-72 transition-transform duration-300 ease-in-out lg:translate-x-0",
+        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="p-8 border-b border-white/5 flex items-center justify-between">
+          <Link href="/demo-admin" className="flex items-center gap-3 group" onClick={() => setIsSidebarOpen(false)}>
             <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center text-primary shadow-xl">
               <span className="font-montserrat font-bold text-xl">T</span>
             </div>
@@ -243,6 +262,9 @@ export default function DemoAdminLayout({ children }: { children: React.ReactNod
               <span className="font-montserrat text-[10px] text-white/50 uppercase tracking-widest mt-1">Admin Portal</span>
             </div>
           </Link>
+          <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden text-white/40 hover:text-white p-1">
+            <X size={20} />
+          </button>
         </div>
 
         {/* Demo Mode Badge */}
@@ -258,6 +280,7 @@ export default function DemoAdminLayout({ children }: { children: React.ReactNod
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => setIsSidebarOpen(false)}
                 className={cn(
                   "flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group",
                   isActive
@@ -291,17 +314,22 @@ export default function DemoAdminLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 pl-72">
+      <main className="flex-1 w-full lg:pl-72 flex flex-col min-h-screen overflow-x-hidden">
         {/* Demo Banner */}
-        <div className="bg-accent text-primary px-6 py-2 text-center font-jakarta text-[11px] font-bold tracking-wide flex items-center justify-center gap-2">
-          <FlaskConical size={13} />
-          You are viewing the Demo Admin Panel — changes are not persisted.
+        <div className="bg-accent text-primary px-4 py-2 text-center font-jakarta text-[11px] font-bold tracking-wide flex items-center justify-center gap-2 shrink-0">
+          <FlaskConical size={13} className="shrink-0" />
+          <span className="truncate">You are viewing the Demo Admin Panel — changes are not persisted.</span>
         </div>
 
-        <header className="h-20 bg-white border-b border-slate-200 px-10 flex items-center justify-between sticky top-0 z-40 bg-white/80 backdrop-blur-md">
-          <h2 className="font-montserrat font-bold text-lg text-slate-900 capitalize">
-            {NAV_ITEMS.find((i) => i.href === pathname)?.name || "Dashboard"}
-          </h2>
+        <header className="h-16 lg:h-20 bg-white border-b border-slate-200 px-4 lg:px-10 flex items-center justify-between shrink-0 sticky top-0 z-30 bg-white/80 backdrop-blur-md">
+          <div className="flex items-center gap-3">
+            <button onClick={() => setIsSidebarOpen(true)} className="lg:hidden p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+              <Menu size={20} />
+            </button>
+            <h2 className="font-montserrat font-bold text-base lg:text-lg text-slate-900 capitalize hidden sm:block">
+              {NAV_ITEMS.find((i) => i.href === pathname)?.name || "Dashboard"}
+            </h2>
+          </div>
           <div className="flex items-center gap-4">
             <div className="text-right flex flex-col">
               <span className="text-xs font-bold text-slate-900">Demo User</span>
@@ -313,7 +341,7 @@ export default function DemoAdminLayout({ children }: { children: React.ReactNod
           </div>
         </header>
 
-        <div className="p-10">
+        <div className="p-4 sm:p-6 lg:p-10 flex-1">
           {children}
         </div>
       </main>
