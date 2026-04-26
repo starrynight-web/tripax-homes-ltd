@@ -1,10 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-  throw new Error("Missing env.NEXT_PUBLIC_SUPABASE_URL");
-}
-if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error("Missing env.SUPABASE_SERVICE_ROLE_KEY");
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  if (process.env.NODE_ENV === "production") {
+    console.warn("⚠️ Warning: Supabase environment variables are missing. Some features may not work.");
+  }
 }
 
 /**
@@ -13,8 +15,8 @@ if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
  * NEVER expose the service role key to the client!
  */
 export const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  supabaseUrl,
+  supabaseServiceKey,
   {
     auth: {
       autoRefreshToken: false,

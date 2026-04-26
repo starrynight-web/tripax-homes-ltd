@@ -4,15 +4,14 @@ import { Footer } from "@/components/layout/Footer";
 import ProjectGallerySticky from "@/components/projects/detail/ProjectGallerySticky";
 import ProjectInfoScrollable from "@/components/projects/detail/ProjectInfoScrollable";
 import ProjectLocationMap from "@/components/projects/detail/ProjectLocationMap";
-import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+// Remove top-level env var constants to prevent build-time crashes if missing
+
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const supabase = createClient(supabaseUrl, supabaseKey);
-  const { data: project } = await supabase.from("projects").select("*").eq("slug", slug).single();
+  const { data: project } = await supabaseAdmin.from("projects").select("*").eq("slug", slug).single();
 
   if (!project) return { title: "Project Not Found | Tripax Homes Ltd." };
 
@@ -25,8 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ProjectDetailSlugPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
-  const supabase = createClient(supabaseUrl, supabaseKey);
-  const { data: project } = await supabase.from("projects").select("*").eq("slug", slug).single();
+  const { data: project } = await supabaseAdmin.from("projects").select("*").eq("slug", slug).single();
 
   if (!project) {
     notFound();
