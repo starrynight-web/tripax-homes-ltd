@@ -3,13 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FolderKanban, MessageSquare, Settings, LogOut, PackageOpen, LayoutTemplate } from "lucide-react";
+import { LayoutDashboard, FolderKanban, MessageSquare, Settings, LogOut, PackageOpen, LayoutTemplate, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { icon: LayoutDashboard, name: "Overview", href: "/admin" },
   { icon: FolderKanban, name: "Projects", href: "/admin/projects" },
   { icon: MessageSquare, name: "Inquiries", href: "/admin/inquiries" },
+  { icon: Calendar, name: "Consultations", href: "/admin/consultations" },
+  { icon: LayoutTemplate, name: "News", href: "/admin/news" },
   { icon: PackageOpen, name: "Resources", href: "/admin/resources" },
   { icon: LayoutTemplate, name: "CMS Config", href: "/admin/config" },
   { icon: Settings, name: "Settings", href: "/admin/settings" },

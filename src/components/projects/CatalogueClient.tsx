@@ -2,15 +2,30 @@
 
 import { useState, useMemo, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Project, projectsMock, ProjectCategory, ProjectType } from "@/data/projectsMock";
 import ProjectCard from "./ProjectCard";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
+import { createClient } from "@/lib/supabase-client";
+
+type ProjectCategory = "Ongoing" | "Upcoming" | "Handed Over" | "Ready";
+type ProjectType = "Residential" | "Commercial";
 
 function CatalogueContent() {
   const searchParams = useSearchParams();
   const [category, setCategory] = useState<ProjectCategory | "All">("All");
   const [type, setType] = useState<ProjectType | "All">("All");
   const [region, setRegion] = useState<string>("All");
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const supabase = createClient();
+
+  useEffect(() => {
+    supabase.from("projects").select("*").order("sort_order", { ascending: true })
+      .then(({ data }) => {
+        if (data) setProjects(data);
+        setLoading(false);
+      });
+  }, [supabase]);
 
   // Sync category state with 'status' query parameter on mount
   useEffect(() => {
@@ -31,11 +46,11 @@ function CatalogueContent() {
   }, [searchParams]);
 
   const regions = useMemo(() => {
-    const allRegions = projectsMock.map(p => p.region);
+    const allRegions = projects.map(p => p.region).filter(Boolean);
     return ["All", ...Array.from(new Set(allRegions))];
-  }, []);
+  }, [projects]);
 
-  const filteredProjects = projectsMock.filter((p) => {
+  const filteredProjects = projects.filter((p) => {
     if (category !== "All" && p.category !== category) return false;
     if (type !== "All" && p.type !== type) return false;
     if (region !== "All" && p.region !== region) return false;
@@ -113,7 +128,12 @@ function CatalogueContent() {
         </div>
 
         {/* Grid */}
-        {filteredProjects.length > 0 ? (
+        {loading ? (
+          <div className="py-20 text-center flex flex-col items-center">
+            <Loader2 className="w-8 h-8 text-primary animate-spin mb-4" />
+            <p className="text-gray-500 font-jakarta">Loading projects...</p>
+          </div>
+        ) : filteredProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />

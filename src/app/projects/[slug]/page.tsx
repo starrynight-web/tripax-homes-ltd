@@ -1,20 +1,19 @@
 import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { projectsMock } from "@/data/projectsMock";
 import ProjectGallerySticky from "@/components/projects/detail/ProjectGallerySticky";
 import ProjectInfoScrollable from "@/components/projects/detail/ProjectInfoScrollable";
 import ProjectLocationMap from "@/components/projects/detail/ProjectLocationMap";
+import { createClient } from "@supabase/supabase-js";
 
-export function generateStaticParams() {
-  return projectsMock.map((project) => ({
-    slug: project.slug,
-  }));
-}
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = projectsMock.find((p) => p.slug === slug);
+  const supabase = createClient(supabaseUrl, supabaseKey);
+  const { data: project } = await supabase.from("projects").select("*").eq("slug", slug).single();
+
   if (!project) return { title: "Project Not Found | Tripax Homes Ltd." };
 
   return {
@@ -25,7 +24,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProjectDetailSlugPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = projectsMock.find((p) => p.slug === slug);
+  
+  const supabase = createClient(supabaseUrl, supabaseKey);
+  const { data: project } = await supabase.from("projects").select("*").eq("slug", slug).single();
 
   if (!project) {
     notFound();
@@ -35,18 +36,8 @@ export default async function ProjectDetailSlugPage({ params }: { params: Promis
     <>
       <Header />
       <main className="min-h-screen bg-white">
-        {/*
-          Sticky-scroll split layout:
-          - On desktop: left column sticks in place (sticky + h-screen), right column scrolls naturally
-          - On mobile: stacked vertically
-          
-          CRITICAL: The parent container must NOT have overflow:hidden/auto.
-          The sticky element must have a defined height.
-          The pt-20 accounts for the fixed header height.
-        */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-20">
           <div className="flex flex-col lg:flex-row lg:gap-12 lg:items-start">
-
             {/* LEFT — Sticky Gallery Pane */}
             <div className="w-full lg:w-1/2 lg:sticky lg:top-20 lg:self-start">
               <ProjectGallerySticky project={project} />
@@ -56,7 +47,6 @@ export default async function ProjectDetailSlugPage({ params }: { params: Promis
             <div className="w-full lg:w-1/2">
               <ProjectInfoScrollable project={project} />
             </div>
-
           </div>
         </div>
 

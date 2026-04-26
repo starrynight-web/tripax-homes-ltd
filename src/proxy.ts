@@ -1,12 +1,12 @@
-import { createServerClient, type CookieOptions } from "@supabase/ssr"
-import { NextResponse, type NextRequest } from "next/server"
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
-  })
+  });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,63 +14,51 @@ export async function proxy(request: NextRequest) {
     {
       cookies: {
         get(name: string) {
-          return request.cookies.get(name)?.value
+          return request.cookies.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          })
+          request.cookies.set({ name, value, ...options });
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          })
+            request: { headers: request.headers },
+          });
+          response.cookies.set({ name, value, ...options });
         },
         remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: "",
-            ...options,
-          })
+          request.cookies.set({ name, value: "", ...options });
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          })
-          response.cookies.set({
-            name,
-            value: "",
-            ...options,
-          })
+            request: { headers: request.headers },
+          });
+          response.cookies.set({ name, value: "", ...options });
         },
       },
     }
-  )
+  );
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
-  // Protect /admin routes
-  if (request.nextUrl.pathname.startsWith("/admin") && !user) {
-    return NextResponse.redirect(new URL("/login", request.url))
+  // Protected routes: /admin/* (but NOT /admin/login)
+  const is_admin_route = request.nextUrl.pathname.startsWith("/admin");
+  const is_login_page = request.nextUrl.pathname === "/admin/login";
+
+  // Check for demo bypass
+  const isDemoAdmin = request.cookies.get("demo_admin")?.value === "true";
+
+  if (is_admin_route && !is_login_page && !user && !isDemoAdmin) {
+    return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
-  // Prevent logged-in users from seeing login page
-  if (request.nextUrl.pathname.startsWith("/login") && user) {
-    return NextResponse.redirect(new URL("/admin", request.url))
+  // Redirect to dashboard if logged in and trying to access login page
+  if (is_login_page && (user || isDemoAdmin)) {
+    return NextResponse.redirect(new URL("/admin", request.url));
   }
 
-  return response
+  return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/login"],
-}
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico).*)"
+  ],
+};

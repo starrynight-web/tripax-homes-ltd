@@ -27,6 +27,7 @@ export interface Project {
   thumbnail: string;
   homepageThumbnail: string;
   gallery: string[];
+  brochure_url?: string;
 }
 
 export const projectsMock: Project[] = [
@@ -58,7 +59,8 @@ export const projectsMock: Project[] = [
       '/images/projects/Interior/int_living_room_1775442400972.png',
       '/images/projects/Interior/int_kitchen_dining_1775442502374.png',
       '/images/projects/Interior/int_office_lobby_1775442487330.png',
-    ]
+    ],
+    brochure_url: '/brochures/tripax-portia.pdf'
   },
   {
     id: '2',
@@ -88,7 +90,8 @@ export const projectsMock: Project[] = [
       '/images/projects/Interior/int_kitchen_dining_1775442502374.png',
       '/images/projects/Interior/int_office_lobby_1775442487330.png',
       '/images/projects/Interior/interior.png',
-    ]
+    ],
+    brochure_url: '/brochures/tripax-verona.pdf'
   },
   {
     id: '3',

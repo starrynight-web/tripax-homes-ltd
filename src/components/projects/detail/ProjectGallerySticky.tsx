@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { Project } from "@/data/projectsMock";
 
-export default function ProjectGallerySticky({ project }: { project: Project }) {
-  const allImages = [project.homepageThumbnail || project.thumbnail, ...project.gallery];
+export default function ProjectGallerySticky({ project }: { project: any }) {
+  const allImages = [project.homepage_thumbnail || project.thumbnail, ...(project.gallery || [])];
   const [mainImage, ...otherImages] = allImages;
 
   return (

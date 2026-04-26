@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Project } from "@/data/projectsMock";
 import { MapPin } from "lucide-react";
 
-export default function ProjectCard({ project }: { project: Project }) {
+export default function ProjectCard({ project }: { project: any }) {
   return (
     <Link
       href={`/projects/${project.slug}`}

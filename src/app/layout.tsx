@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
+import { AIAssistant } from "@/components/ai/AIAssistant";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -32,6 +34,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-jakarta bg-neutral-50 text-neutral-900">
         {children}
+        <WhatsAppButton />
+        <AIAssistant />
       </body>
     </html>
   );
