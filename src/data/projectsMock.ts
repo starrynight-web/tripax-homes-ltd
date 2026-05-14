@@ -28,6 +28,8 @@ export interface Project {
   homepageThumbnail: string;
   gallery: string[];
   brochure_url?: string;
+  google_map_link?: string;
+  video_url?: string;
 }
 
 export const projectsMock: Project[] = [

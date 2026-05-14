@@ -1,30 +1,20 @@
 import { Target, Eye, Shield, Users, Heart, BookOpen, TrendingUp } from "lucide-react";
 import { RevealHeading } from "@/components/ui/RevealHeading";
 
-const values = [
-  {
-    title: "Integrity",
-    icon: <Shield className="w-6 h-6" />,
-  },
-  {
-    title: "Respectful & Long Term Partnership",
-    icon: <Users className="w-6 h-6" />,
-  },
-  {
-    title: "Customer Satisfaction",
-    icon: <Heart className="w-6 h-6" />,
-  },
-  {
-    title: "Open & Transparent Culture",
-    icon: <BookOpen className="w-6 h-6" />,
-  },
-  {
-    title: "Engaging & Growing Team Member",
-    icon: <TrendingUp className="w-6 h-6" />,
-  },
+const defaultValues = [
+  { title: "Integrity", icon: <Shield className="w-6 h-6" /> },
+  { title: "Respectful & Long Term Partnership", icon: <Users className="w-6 h-6" /> },
+  { title: "Customer Satisfaction", icon: <Heart className="w-6 h-6" /> },
+  { title: "Open & Transparent Culture", icon: <BookOpen className="w-6 h-6" /> },
+  { title: "Engaging & Growing Team Member", icon: <TrendingUp className="w-6 h-6" /> },
 ];
 
-export default function MissionVisionValues() {
+export default function MissionVisionValues({ content }: { content?: any }) {
+  const data = {
+    mission: content?.mission || "To elevate the living standards of our customers and bring them enduring happiness through meticulously crafted homes.",
+    vision: content?.vision || "To emerge as the most trusted, respected, and premier real estate entity in Bangladesh, setting benchmarks in luxury and reliability.",
+  };
+
   return (
     <section className="py-24 bg-stone-50">
       <div className="container mx-auto px-4">
@@ -45,12 +35,11 @@ export default function MissionVisionValues() {
                   color="#F2CD13"
                   delay={0.1}
                 >
-                  Purpose
+                  Mission
                 </RevealHeading>
               </div>
-              <p className="text-white/80 text-lg leading-relaxed">
-                To elevate the living standards of our customers and bring them
-                enduring happiness through meticulously crafted homes.
+              <p className="text-white/80 text-lg leading-relaxed whitespace-pre-wrap">
+                {data.mission}
               </p>
             </div>
           </div>
@@ -74,9 +63,8 @@ export default function MissionVisionValues() {
                   Vision
                 </RevealHeading>
               </div>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                To emerge as the most trusted, respected, and premier real estate
-                entity in Bangladesh, setting benchmarks in luxury and reliability.
+              <p className="text-gray-600 text-lg leading-relaxed whitespace-pre-wrap">
+                {data.vision}
               </p>
             </div>
           </div>
@@ -103,7 +91,7 @@ export default function MissionVisionValues() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {values.map((value, index) => (
+          {defaultValues.map((value, index) => (
             <div
               key={index}
               className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center gap-4 group"

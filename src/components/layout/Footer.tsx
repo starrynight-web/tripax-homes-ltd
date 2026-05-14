@@ -2,7 +2,10 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-export function Footer() {
+export function Footer({ config }: { config?: any }) {
+  const phone = config?.cta_phone_number || "+880 1234 567890";
+  const email = config?.email_address || "info@tripaxhomes.com";
+
   return (
     <footer className="relative bg-primary text-white overflow-hidden">
       {/* Background Image with Dark Overlay */}
@@ -33,11 +36,11 @@ export function Footer() {
             <div className="space-y-4 font-jakarta text-sm tracking-wide text-white/80">
               <p className="uppercase">
                 <span className="font-bold text-white mr-2">HOTLINE :</span>
-                <a href="tel:+8801234567890" className="hover:text-accent transition-colors">+880 1234 567890</a>
+                <a href={`tel:${phone.replace(/\s+/g, "")}`} className="hover:text-accent transition-colors">{phone}</a>
               </p>
               <p className="uppercase">
                 <span className="font-bold text-white mr-2">EMAIL :</span>
-                <a href="mailto:info@tripaxhomes.com" className="hover:text-accent transition-colors lowercase">info@tripaxhomes.com</a>
+                <a href={`mailto:${email}`} className="hover:text-accent transition-colors lowercase">{email}</a>
               </p>
             </div>
             
@@ -74,10 +77,11 @@ export function Footer() {
           </p>
           <p className="text-[10px] sm:text-xs font-jakarta tracking-wider text-white/50 uppercase">
             A project of <a href="https://www.unleft.space" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">UNLEFT</a>
+            <span className="mx-2">|</span>
+            <Link href="/admin/login" className="hover:text-accent transition-colors">Staff Login</Link>
           </p>
         </div>
       </div>
     </footer>
   );
 }
-

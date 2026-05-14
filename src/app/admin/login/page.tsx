@@ -2,28 +2,28 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase-client";
 import { 
   Lock, 
-  Mail, 
+  User, 
   Eye, 
   EyeOff, 
   ShieldAlert, 
   ArrowLeft,
   ChevronRight,
-  ShieldCheck
+  ShieldCheck,
+  Loader2
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
+import { login } from "@/app/actions/auth";
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,13 +31,14 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
-      const { error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const formData = new FormData();
+      formData.append("id", id);
+      formData.append("pass", password);
 
-      if (authError) {
-        setError(authError.message);
+      const result = await login(formData);
+
+      if (result?.error) {
+        setError(result.error);
         setLoading(false);
         return;
       }
@@ -87,9 +88,9 @@ export default function AdminLoginPage() {
           {/* Subtle line decoration */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
           
-          <div className="space-y-6">
-            <p className="text-white/60 text-sm text-center mb-8">
-              Google OAuth 2.0 integration is coming soon. For now, you can access the dashboard using the demo mode.
+          <form onSubmit={handleLogin} className="space-y-6">
+            <p className="text-white/60 text-xs text-center mb-6">
+              Enter your administrative credentials to continue.
             </p>
 
             {/* Error Message */}
@@ -109,20 +110,68 @@ export default function AdminLoginPage() {
               )}
             </AnimatePresence>
 
+            <div className="space-y-4">
+              {/* ID Field */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Admin ID</label>
+                <div className="relative group/input">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within/input:text-accent transition-colors">
+                    <User size={18} />
+                  </div>
+                  <input
+                    type="text"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                    placeholder="Enter ID"
+                    required
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white text-sm focus:outline-none focus:border-accent/50 focus:bg-white/[0.05] transition-all"
+                  />
+                </div>
+              </div>
+
+              {/* Password Field */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Password</label>
+                <div className="relative group/input">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within/input:text-accent transition-colors">
+                    <Lock size={18} />
+                  </div>
+                  <input
+                    type={showPass ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-12 pr-12 text-white text-sm focus:outline-none focus:border-accent/50 focus:bg-white/[0.05] transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPass(!showPass)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/20 hover:text-white transition-colors"
+                  >
+                    {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+            </div>
+
             {/* Submit Button */}
             <button
-              onClick={() => {
-                document.cookie = "demo_admin=true; path=/; max-age=86400";
-                router.push("/admin");
-                router.refresh();
-              }}
-              className="w-full py-4 bg-accent hover:bg-highlight text-primary rounded-2xl font-montserrat font-bold text-sm tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-3 group/btn shadow-[0_10px_30px_rgba(242,205,19,0.15)] hover:shadow-[0_15px_40px_rgba(242,205,19,0.25)]"
+              type="submit"
+              disabled={loading}
+              className="w-full py-4 bg-accent hover:bg-highlight text-primary disabled:opacity-50 disabled:cursor-not-allowed rounded-2xl font-montserrat font-bold text-sm tracking-widest uppercase transition-all duration-300 flex items-center justify-center gap-3 group/btn shadow-[0_10px_30px_rgba(242,205,19,0.15)] hover:shadow-[0_15px_40px_rgba(242,205,19,0.25)]"
             >
-              <ShieldCheck size={18} />
-              <span>Login as Demo Admin</span>
-              <ChevronRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+              {loading ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <>
+                  <ShieldCheck size={18} />
+                  <span>Authenticate</span>
+                  <ChevronRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+                </>
+              )}
             </button>
-          </div>
+          </form>
         </div>
 
         {/* Footer Links */}
@@ -135,7 +184,7 @@ export default function AdminLoginPage() {
             Back to Website
           </Link>
           <span className="text-white/20 text-[10px] font-bold uppercase tracking-widest">
-            v2.4.0 Stable
+            Secure Portal v3.0
           </span>
         </div>
       </motion.div>

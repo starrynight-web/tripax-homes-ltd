@@ -109,6 +109,14 @@ export default function ProjectInfoScrollable({ project }: { project: any }) {
                 className="absolute inset-0 w-full h-full"
                 allowFullScreen
               />
+            ) : project.video_url.includes("facebook.com") || project.video_url.includes("fb.watch") ? (
+              <iframe
+                src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(project.video_url)}&show_text=0&width=560`}
+                className="absolute inset-0 w-full h-full"
+                style={{ border: "none", overflow: "hidden" }}
+                allowFullScreen={true}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              />
             ) : (
               <video 
                 src={project.video_url} 

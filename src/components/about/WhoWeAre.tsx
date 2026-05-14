@@ -10,10 +10,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-
 import { RevealHeading } from "@/components/ui/RevealHeading";
 
-export default function WhoWeAre() {
+export default function WhoWeAre({ content }: { content?: any }) {
+  const data = {
+    tag: content?.tag || "Our Story",
+    title: content?.title || "Who We Are",
+    text1: content?.text1 || "Tripax Group is a rising local conglomerate in Bangladesh...",
+    text2: content?.text2 || "Tripax Homes Ltd. emerged with a visionary team dedicated to blending immense value, luxury, and innovation...",
+    fullStory: content?.fullStory || "Tripax Group is a rising local conglomerate in Bangladesh...",
+    image: content?.image_url || "/images/about/who-we-are.png",
+    videoUrl: content?.videoUrl || "",
+  };
+
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
@@ -26,7 +35,7 @@ export default function WhoWeAre() {
               color="#11261A"
               delay={0.1}
             >
-              Our Story
+              {data.tag}
             </RevealHeading>
             <RevealHeading
               tag="h2"
@@ -34,23 +43,11 @@ export default function WhoWeAre() {
               color="#11261A"
               delay={0.3}
             >
-              Who We Are
+              {data.title}
             </RevealHeading>
             <div className="space-y-4 text-gray-600 text-lg">
-              <p>
-                <strong>Tripax Group</strong> is a rising local conglomerate in
-                Bangladesh, dedicated to elevating lifestyles through premium
-                real estate, uncompromising quality, and unparalleled customer
-                service. With a vision for sustainable growth, we are shaping the
-                future of modern living.
-              </p>
-              <p>
-                <strong>Tripax Homes Ltd.</strong> emerged with a visionary team
-                dedicated to blending immense value, luxury, and innovation. We
-                craft not just apartments, but opulent living experiences infused
-                with elegant design, modern amenities, and meticulous total
-                quality control.
-              </p>
+              <p className="whitespace-pre-wrap">{data.text1}</p>
+              <p className="whitespace-pre-wrap">{data.text2}</p>
             </div>
 
             <Dialog>
@@ -69,29 +66,8 @@ export default function WhoWeAre() {
                     Tripax Homes: A Legacy of Excellence
                   </DialogTitle>
                 </DialogHeader>
-                <div className="space-y-4 text-gray-700">
-                  <p>
-                    <strong>Tripax Group</strong> is a rising local conglomerate in
-                    Bangladesh, dedicated to elevating lifestyles through premium
-                    real estate, uncompromising quality, and unparalleled customer
-                    service. Established with a profound commitment to driving
-                    innovation, the group is rapidly expanding its portfolio to
-                    address the dynamic demands of a growing nation.
-                  </p>
-                  <p>
-                    <strong>Tripax Homes Ltd.</strong> emerged with a visionary team
-                    dedicated to blending immense value, luxury, and innovation. We
-                    craft not just apartments, but opulent living experiences infused
-                    with elegant design, modern amenities, and meticulous total
-                    quality control.
-                  </p>
-                  <p>
-                    Our customer-centric approach, combined with absolute financial
-                    strength, enables us to offer optimum luxury. From biophilic
-                    architectural touches to cutting-edge home technologies, we
-                    ensure that the standard of living we provide is never confined
-                    to mere square footage, but rather celebrated to its fullest.
-                  </p>
+                <div className="space-y-4 text-gray-700 whitespace-pre-wrap">
+                  {data.fullStory}
                 </div>
               </DialogContent>
             </Dialog>
@@ -100,8 +76,8 @@ export default function WhoWeAre() {
           {/* Image & Video Trigger */}
           <div className="relative aspect-square md:aspect-4/3 rounded-2xl overflow-hidden shadow-2xl group">
             <Image
-              src="/images/about/who-we-are.png"
-              alt="Tripax Office Interior"
+              src={data.image}
+              alt={data.title}
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
@@ -115,11 +91,18 @@ export default function WhoWeAre() {
               </DialogTrigger>
               <DialogContent className="sm:max-w-200 p-0 bg-black border-none">
                 <div className="aspect-video w-full bg-stone-900 flex items-center justify-center text-stone-500">
-                  {/* Placeholder for YouTube/Vimeo Iframe */}
-                  <div className="text-center">
-                    <Play className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                    <p>Corporate Video Placeholder</p>
-                  </div>
+                  {data.videoUrl ? (
+                    <iframe 
+                      src={data.videoUrl} 
+                      className="w-full h-full" 
+                      allowFullScreen 
+                    />
+                  ) : (
+                    <div className="text-center">
+                      <Play className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                      <p>Corporate Video Placeholder</p>
+                    </div>
+                  )}
                 </div>
               </DialogContent>
             </Dialog>

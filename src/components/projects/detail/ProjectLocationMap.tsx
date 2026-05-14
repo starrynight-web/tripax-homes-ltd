@@ -15,14 +15,26 @@ export default function ProjectLocationMap({ project }: { project: Project }) {
           </p>
         </div>
         
-        {/* Map Placeholder Block */}
-        <div className="relative w-full h-[500px] bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
-          {/* In a real app, integrate Google Maps iframe or library here */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <MapPin className="w-16 h-16 text-gray-300 mb-4" />
-            <p className="text-gray-500 font-medium">Interactive Map Integration Pending</p>
-            <p className="text-gray-400 text-sm mt-2">{project.region} coordinates would load here</p>
-          </div>
+        {/* Map Block */}
+        <div className="relative w-full h-[500px] bg-gray-100 rounded-2xl overflow-hidden border border-gray-200 shadow-inner">
+          {project.google_map_link ? (
+            <iframe
+              src={project.google_map_link.includes("pb=") ? project.google_map_link : `https://maps.google.com/maps?q=${encodeURIComponent(project.location)}&output=embed`}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="grayscale-[0.5] hover:grayscale-0 transition-all duration-700"
+            ></iframe>
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <MapPin className="w-16 h-16 text-gray-300 mb-4" />
+              <p className="text-gray-500 font-medium">Interactive Map Integration Pending</p>
+              <p className="text-gray-400 text-sm mt-2">{project.region || "Location"} coordinates would load here</p>
+            </div>
+          )}
         </div>
       </div>
     </section>

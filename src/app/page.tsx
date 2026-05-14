@@ -8,8 +8,11 @@ import { FeaturedCarousel } from "@/components/home/FeaturedCarousel";
 import { Testimonials } from "@/components/home/Testimonials";
 import { NewsSection } from "@/components/home/NewsSection";
 import { ConsultationCTA } from "@/components/home/ConsultationCTA";
+import { getSiteConfig } from "@/app/actions/config";
 
-export default function Home() {
+export default async function Home() {
+  const config = await getSiteConfig();
+
   return (
     <>
       <Header />
@@ -20,9 +23,9 @@ export default function Home() {
         <FeaturedCarousel />
         <NewsSection />
         <Testimonials />
-        <ConsultationCTA />
+        <ConsultationCTA ctaPhone={config.cta_phone_number} />
       </main>
-      <Footer />
+      <Footer config={config} />
     </>
   );
 }

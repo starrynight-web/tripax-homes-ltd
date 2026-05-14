@@ -134,6 +134,7 @@ export default function AdminProjectsPage() {
       overview: formData.get("overview") as string,
       progress_percent: Number(formData.get("progress_percent")) || 0,
       video_url: formData.get("video_url") as string,
+      google_map_link: formData.get("google_map_link") as string,
       is_featured: formData.get("is_featured") === "on",
       thumbnail,
       homepage_thumbnail: homepageThumbnail,
@@ -407,6 +408,10 @@ export default function AdminProjectsPage() {
                         <div>
                           <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Completion %</label>
                           <input name="progress_percent" type="number" min={0} max={100} defaultValue={modal.project?.progress_percent || 0} className="mt-1 w-full border border-slate-200 rounded-lg px-4 py-3 font-jakarta text-sm" />
+                        </div>
+                        <div className="col-span-2">
+                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Google Map Link</label>
+                          <input name="google_map_link" defaultValue={modal.project?.google_map_link} placeholder="https://maps.google.com/..." className="mt-1 w-full border border-slate-200 rounded-lg px-4 py-3 font-jakarta text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" />
                         </div>
                         <div className="flex items-center pt-6">
                           <label className="flex items-center gap-2 cursor-pointer">

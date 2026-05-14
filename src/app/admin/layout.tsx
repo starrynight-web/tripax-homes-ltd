@@ -3,12 +3,14 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FolderKanban, MessageSquare, Settings, LogOut, PackageOpen, LayoutTemplate, Calendar } from "lucide-react";
+import { LayoutDashboard, FolderKanban, MessageSquare, Settings, LogOut, PackageOpen, LayoutTemplate, Calendar, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { logout } from "@/app/actions/auth";
 
 const NAV_ITEMS = [
   { icon: LayoutDashboard, name: "Overview", href: "/admin" },
   { icon: FolderKanban, name: "Projects", href: "/admin/projects" },
+  { icon: Users, name: "About CMS", href: "/admin/about" },
   { icon: MessageSquare, name: "Inquiries", href: "/admin/inquiries" },
   { icon: Calendar, name: "Consultations", href: "/admin/consultations" },
   { icon: LayoutTemplate, name: "News", href: "/admin/news" },
@@ -20,10 +22,17 @@ const NAV_ITEMS = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
+  const isLoginPage = pathname === "/admin/login";
+
+  if (isLoginPage) {
+    return <div className="min-h-screen bg-slate-900">{children}</div>;
+  }
+
   return (
     <div className="flex min-h-screen bg-slate-50 font-jakarta">
       {/* Sidebar */}
       <aside className="w-72 bg-slate-900 text-slate-400 border-r border-slate-800 flex flex-col fixed inset-y-0 z-50">
+        {/* ... (Sidebar Content) */}
         <div className="p-8 border-b border-slate-800">
           <Link href="/admin" className="flex items-center gap-3 group">
             <div className="w-10 h-10 bg-linear-to-br from-primary to-secondary rounded-xl flex items-center justify-center text-white shadow-xl">
@@ -58,7 +67,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         <div className="p-6 border-t border-slate-800">
-          <button className="flex items-center gap-4 px-4 py-3 w-full rounded-xl hover:bg-slate-800 hover:text-white transition-all">
+          <button 
+            onClick={() => logout()}
+            className="flex items-center gap-4 px-4 py-3 w-full rounded-xl hover:bg-slate-800 hover:text-white transition-all text-left"
+          >
             <LogOut size={20} className="text-slate-500" />
             <span className="font-medium text-sm">Sign Out</span>
           </button>

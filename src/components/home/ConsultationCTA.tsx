@@ -7,7 +7,7 @@ import { Phone, Loader2, CheckCircle2 } from "lucide-react";
 import { RevealHeading } from "@/components/ui/RevealHeading";
 import { createConsultation } from "@/app/actions/booking";
 
-export function ConsultationCTA() {
+export function ConsultationCTA({ ctaPhone = "+8801234567890" }: { ctaPhone?: string }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [form, setForm] = useState({
@@ -134,7 +134,7 @@ export function ConsultationCTA() {
                     </button>
 
                     <Link
-                      href="tel:+8801234567890"
+                      href={`tel:${ctaPhone.replace(/\s+/g, "")}`}
                       className="flex items-center gap-3 px-8 py-4 font-montserrat font-bold text-xs tracking-widest uppercase text-white transition-all hover:opacity-90 hover:scale-105 bg-accent"
                     >
                       <Phone size={16} />
@@ -150,4 +150,3 @@ export function ConsultationCTA() {
     </section>
   );
 }
-
