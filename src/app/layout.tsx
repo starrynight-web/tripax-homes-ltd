@@ -37,7 +37,10 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col font-jakarta bg-neutral-50 text-neutral-900">
         {children}
-        <WhatsAppButton phoneNumber={config.whatsapp_number || config.cta_phone_number || config.primary_phone} />
+        <WhatsAppButton 
+          phoneNumber={config.whatsapp_number || config.cta_phone_number || config.primary_phone} 
+          message={config.whatsapp_message}
+        />
       </body>
     </html>
   );

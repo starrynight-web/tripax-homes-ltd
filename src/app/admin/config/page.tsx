@@ -117,6 +117,7 @@ export default function AdminConfigPage() {
           <TextField label="Email Address" value={config.email_address || ""} onChange={v => updateConfig("email_address", v)} type="email" />
           <TextField label="Office Address" value={config.office_address || ""} onChange={v => updateConfig("office_address", v)} />
           <TextField label="WhatsApp Number" value={config.whatsapp_number || ""} onChange={v => updateConfig("whatsapp_number", v)} placeholder="+8801234567890" />
+          <TextField label="WhatsApp Default Message" value={config.whatsapp_message || ""} onChange={v => updateConfig("whatsapp_message", v)} placeholder="e.g. Can I get more details about the project?" />
           <TextField label="Google Maps Embed URL" value={config.maps_embed_url || ""} onChange={v => updateConfig("maps_embed_url", v)} placeholder="https://maps.google.com/..." />
         </AccordionSection>
 

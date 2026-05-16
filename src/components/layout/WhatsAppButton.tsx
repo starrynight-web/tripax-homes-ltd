@@ -3,21 +3,33 @@
 import React from "react";
 import { MessageCircle } from "lucide-react";
 import { motion } from "motion/react";
+import { trackWhatsAppClick } from "@/app/actions/analytics";
 
 interface WhatsAppButtonProps {
   phoneNumber?: string;
+  message?: string;
 }
 
-export function WhatsAppButton({ phoneNumber = "+8801234567890" }: WhatsAppButtonProps) {
+export function WhatsAppButton({ phoneNumber = "+8801234567890", message }: WhatsAppButtonProps) {
   // Remove any non-digit characters except the +
   const cleanNumber = phoneNumber.replace(/[^\d+]/g, "");
-  const whatsappUrl = `https://wa.me/${cleanNumber.replace("+", "")}`;
+  const encodedMessage = message ? encodeURIComponent(message) : "";
+  const whatsappUrl = `https://wa.me/${cleanNumber.replace("+", "")}${encodedMessage ? `?text=${encodedMessage}` : ""}`;
+
+  const handleClick = async () => {
+    try {
+      await trackWhatsAppClick();
+    } catch (err) {
+      console.error("Failed to track WhatsApp click", err);
+    }
+  };
 
   return (
     <motion.a
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       whileHover={{ scale: 1.1 }}

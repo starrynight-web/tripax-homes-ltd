@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { Users, FolderKanban, MessageSquare, TrendingUp, ArrowUpRight, Loader2, Clock } from "lucide-react";
+import { Users, FolderKanban, MessageSquare, TrendingUp, ArrowUpRight, Loader2, Clock, PhoneOutgoing } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { createClient } from "@/lib/supabase-client";
@@ -13,8 +13,8 @@ export default function AdminDashboardPage() {
   const [stats, setStats] = useState([
     { label: "Active Projects", value: "0", icon: FolderKanban, color: "bg-blue-500", trend: "Live Projects" },
     { label: "Total Inquiries", value: "0", icon: MessageSquare, color: "bg-emerald-500", trend: "Consultations" },
+    { label: "WhatsApp Leads", value: "0", icon: PhoneOutgoing, color: "bg-[#25D366]", trend: "Redirects" },
     { label: "News Articles", value: "0", icon: Users, color: "bg-amber-500", trend: "Published" },
-    { label: "Completion Rate", value: "100%", icon: TrendingUp, color: "bg-purple-500", trend: "Target: 100%" },
   ]);
   const [recentInquiries, setRecentInquiries] = useState<any[]>([]);
   const supabase = createClient();
@@ -26,19 +26,21 @@ export default function AdminDashboardPage() {
           { count: projectsCount },
           { count: consultationsCount },
           { data: recent },
-          { count: newsCount }
+          { count: newsCount },
+          { data: analyticsData }
         ] = await Promise.all([
           supabase.from("projects").select("*", { count: "exact", head: true }),
           supabase.from("consultations").select("*", { count: "exact", head: true }),
           supabase.from("consultations").select("*").order("created_at", { ascending: false }).limit(5),
-          supabase.from("news_articles").select("*", { count: "exact", head: true })
+          supabase.from("news_articles").select("*", { count: "exact", head: true }),
+          supabase.from("site_analytics").select("value").eq("key", "whatsapp_clicks").single()
         ]);
 
         setStats([
           { label: "Active Projects", value: (projectsCount || 0).toString(), icon: FolderKanban, color: "bg-blue-500", trend: "Total Listings" },
           { label: "Total Inquiries", value: (consultationsCount || 0).toString(), icon: MessageSquare, color: "bg-emerald-500", trend: "Client Requests" },
+          { label: "WhatsApp Leads", value: (analyticsData?.value || 0).toString(), icon: PhoneOutgoing, color: "bg-[#25D366]", trend: "CTA Clicks" },
           { label: "News Articles", value: (newsCount || 0).toString(), icon: Users, color: "bg-amber-500", trend: "Blog Posts" },
-          { label: "Avg. Response", value: "2h", icon: TrendingUp, color: "bg-purple-500", trend: "Last 7 days" },
         ]);
 
         if (recent) setRecentInquiries(recent);
