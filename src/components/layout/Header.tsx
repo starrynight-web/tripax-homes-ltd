@@ -30,11 +30,11 @@ const navItems = [
   { name: "FAQ", href: "/faq", icon: HelpCircle },
 ];
 
-export function Header() {
+export function Header({ config }: { config?: Record<string, string> }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [siteConfig, setSiteConfig] = useState<Record<string, string>>({});
+  const [siteConfig, setSiteConfig] = useState<Record<string, string>>(config || {});
   const supabase = createClient();
 
   useEffect(() => {
@@ -48,13 +48,15 @@ export function Header() {
       setUser(data.user);
     });
 
-    // Fetch Site Config
-    supabase.from("site_config").select("*").then(({ data }) => {
-      if (data) {
-        const configMap = data.reduce((acc: any, curr) => ({ ...acc, [curr.key]: curr.value }), {});
-        setSiteConfig(configMap);
-      }
-    });
+    // Fetch Site Config if not provided
+    if (!config) {
+      supabase.from("site_config").select("*").then(({ data }) => {
+        if (data) {
+          const configMap = data.reduce((acc: any, curr) => ({ ...acc, [curr.key]: curr.value }), {});
+          setSiteConfig(configMap);
+        }
+      });
+    }
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -65,9 +67,9 @@ export function Header() {
       window.removeEventListener("scroll", handleScroll);
       subscription.unsubscribe();
     };
-  }, [supabase.auth]);
+  }, [supabase.auth, config]);
 
-  const ctaNumber = siteConfig.phone_primary || "+880-1234-567890";
+  const ctaNumber = siteConfig.cta_phone_number || siteConfig.primary_phone || "+880-1234-567890";
   const ctaText = siteConfig.cta_text || "Enquire";
 
   return (

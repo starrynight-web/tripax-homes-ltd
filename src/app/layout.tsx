@@ -3,6 +3,8 @@ import { Montserrat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
+import { getSiteConfig } from "@/app/actions/config";
+
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
@@ -21,11 +23,13 @@ export const metadata: Metadata = {
   keywords: ["Tripax Homes", "Real Estate Dhaka", "Land Development", "Apartments Dhaka", "Construction Bangladesh"],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const config = await getSiteConfig();
+
   return (
     <html
       lang="en"
@@ -33,7 +37,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-jakarta bg-neutral-50 text-neutral-900">
         {children}
-        <WhatsAppButton />
+        <WhatsAppButton phoneNumber={config.whatsapp_number || config.cta_phone_number || config.primary_phone} />
       </body>
     </html>
   );

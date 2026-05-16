@@ -5,6 +5,7 @@ import ChairmanMessage from "@/components/about/ChairmanMessage";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { getAboutSections, getTeamMembers } from "@/app/actions/about";
+import { getSiteConfig } from "@/app/actions/config";
 
 export const metadata = {
   title: "About Us | Tripax Homes Ltd.",
@@ -14,10 +15,11 @@ export const metadata = {
 export default async function AboutPage() {
   const sections = await getAboutSections();
   const team = await getTeamMembers();
+  const config = await getSiteConfig();
 
   return (
     <>
-      <Header />
+      <Header config={config} />
       <main className="min-h-screen bg-stone-50">
         <AboutHero content={sections.hero} />
         <WhoWeAre content={sections.who_we_are} />

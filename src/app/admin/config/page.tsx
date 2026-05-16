@@ -116,6 +116,7 @@ export default function AdminConfigPage() {
           <TextField label="CTA Phone Number" value={config.cta_phone_number || ""} onChange={v => updateConfig("cta_phone_number", v)} type="tel" />
           <TextField label="Email Address" value={config.email_address || ""} onChange={v => updateConfig("email_address", v)} type="email" />
           <TextField label="Office Address" value={config.office_address || ""} onChange={v => updateConfig("office_address", v)} />
+          <TextField label="WhatsApp Number" value={config.whatsapp_number || ""} onChange={v => updateConfig("whatsapp_number", v)} placeholder="+8801234567890" />
           <TextField label="Google Maps Embed URL" value={config.maps_embed_url || ""} onChange={v => updateConfig("maps_embed_url", v)} placeholder="https://maps.google.com/..." />
         </AccordionSection>
 

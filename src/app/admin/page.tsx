@@ -1,19 +1,66 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { Users, FolderKanban, MessageSquare, TrendingUp, ArrowUpRight } from "lucide-react";
+import { Users, FolderKanban, MessageSquare, TrendingUp, ArrowUpRight, Loader2, Clock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-const STATS = [
-  { label: "Active Projects", value: "12", icon: FolderKanban, color: "bg-blue-500", trend: "+2 this month" },
-  { label: "Total Inquiries", value: "48", icon: MessageSquare, color: "bg-emerald-500", trend: "+15% from last week" },
-  { label: "Total Visitors", value: "1,294", icon: Users, color: "bg-amber-500", trend: "+24% increase" },
-  { label: "Completion Rate", value: "98%", icon: TrendingUp, color: "bg-purple-500", trend: "Target: 100%" },
-];
+import { createClient } from "@/lib/supabase-client";
+import Link from "next/link";
 
 export default function AdminDashboardPage() {
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState([
+    { label: "Active Projects", value: "0", icon: FolderKanban, color: "bg-blue-500", trend: "Live Projects" },
+    { label: "Total Inquiries", value: "0", icon: MessageSquare, color: "bg-emerald-500", trend: "Consultations" },
+    { label: "News Articles", value: "0", icon: Users, color: "bg-amber-500", trend: "Published" },
+    { label: "Completion Rate", value: "100%", icon: TrendingUp, color: "bg-purple-500", trend: "Target: 100%" },
+  ]);
+  const [recentInquiries, setRecentInquiries] = useState<any[]>([]);
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const [
+          { count: projectsCount },
+          { count: consultationsCount },
+          { data: recent },
+          { count: newsCount }
+        ] = await Promise.all([
+          supabase.from("projects").select("*", { count: "exact", head: true }),
+          supabase.from("consultations").select("*", { count: "exact", head: true }),
+          supabase.from("consultations").select("*").order("created_at", { ascending: false }).limit(5),
+          supabase.from("news_articles").select("*", { count: "exact", head: true })
+        ]);
+
+        setStats([
+          { label: "Active Projects", value: (projectsCount || 0).toString(), icon: FolderKanban, color: "bg-blue-500", trend: "Total Listings" },
+          { label: "Total Inquiries", value: (consultationsCount || 0).toString(), icon: MessageSquare, color: "bg-emerald-500", trend: "Client Requests" },
+          { label: "News Articles", value: (newsCount || 0).toString(), icon: Users, color: "bg-amber-500", trend: "Blog Posts" },
+          { label: "Avg. Response", value: "2h", icon: TrendingUp, color: "bg-purple-500", trend: "Last 7 days" },
+        ]);
+
+        if (recent) setRecentInquiries(recent);
+      } catch (err) {
+        console.error("Failed to fetch dashboard stats:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchStats();
+  }, [supabase]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Loader2 className="animate-spin text-primary mb-4" size={32} />
+        <p className="text-slate-500 font-jakarta">Synchronizing real-time data...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* Welcome Header */}
@@ -24,7 +71,7 @@ export default function AdminDashboardPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {STATS.map((stat, idx) => (
+        {stats.map((stat, idx) => (
           <motion.div
              key={stat.label}
              initial={{ opacity: 0, y: 20 }}
@@ -53,30 +100,46 @@ export default function AdminDashboardPage() {
       {/* Secondary Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Inquiries */}
-        <Card className="lg:col-span-2 border-none shadow-sm">
+        <Card className="lg:col-span-2 border-none shadow-sm overflow-hidden">
            <CardHeader className="flex flex-row items-center justify-between">
               <div>
                  <CardTitle className="font-montserrat font-bold text-lg">Recent Inquiries</CardTitle>
                  <CardDescription>Latest contact requests from potential clients.</CardDescription>
               </div>
-              <button className="text-primary hover:underline font-bold text-xs uppercase tracking-widest flex items-center gap-1 group">
+              <Link href="/admin/consultations" className="text-primary hover:underline font-bold text-xs uppercase tracking-widest flex items-center gap-1 group">
                  View All <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </button>
+              </Link>
            </CardHeader>
-           <CardContent>
-              <div className="space-y-4">
-                 {[1, 2, 3].map((i) => (
-                   <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary/20 transition-colors">
-                      <div className="w-10 h-10 rounded-full bg-linear-to-br from-slate-200 to-slate-300 flex items-center justify-center font-bold text-slate-600 text-xs">
-                         JD
-                      </div>
-                      <div className="flex-1">
-                         <h4 className="text-sm font-bold text-slate-900">John Doe <span className="text-[10px] text-slate-400 font-normal ml-2">2h ago</span></h4>
-                         <p className="text-xs text-slate-500 truncate max-w-xs">Interested in Gulshan Premium Residence...</p>
-                      </div>
-                      <Badge variant="secondary" className="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 border-none">New</Badge>
-                   </div>
-                 ))}
+           <CardContent className="p-0">
+              <div className="divide-y divide-slate-100">
+                 {recentInquiries.length > 0 ? (
+                   recentInquiries.map((inquiry) => (
+                    <div key={inquiry.id} className="flex items-center gap-4 p-5 hover:bg-slate-50 transition-colors">
+                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs uppercase">
+                          {inquiry.name?.substring(0, 2) || "IN"}
+                       </div>
+                       <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-bold text-slate-900 truncate">
+                            {inquiry.name} 
+                            <span className="text-[10px] text-slate-400 font-normal ml-2 flex items-center gap-1 inline-flex">
+                              <Clock size={10} />
+                              {new Date(inquiry.created_at).toLocaleDateString()}
+                            </span>
+                          </h4>
+                          <p className="text-xs text-slate-500 truncate">
+                            {inquiry.type || "Consultation Request"} • {inquiry.phone}
+                          </p>
+                       </div>
+                       <Badge variant="secondary" className="bg-primary/5 text-primary text-[10px] px-2 py-0.5 border-none uppercase tracking-tighter">
+                         {inquiry.status || "New"}
+                       </Badge>
+                    </div>
+                  ))
+                 ) : (
+                    <div className="p-10 text-center text-slate-400 text-sm">
+                      No recent inquiries found.
+                    </div>
+                 )}
               </div>
            </CardContent>
         </Card>
@@ -85,17 +148,17 @@ export default function AdminDashboardPage() {
         <Card className="border-none shadow-sm bg-linear-to-br from-primary to-indigo-900 text-white">
            <CardHeader>
               <CardTitle className="font-montserrat font-bold text-lg">Quick Actions</CardTitle>
-              <CardDescription className="text-white/60">Generate reports or add listings</CardDescription>
+              <CardDescription className="text-white/60">Manage your property portfolio</CardDescription>
            </CardHeader>
            <CardContent className="space-y-4">
-              <button className="w-full h-12 bg-white/10 hover:bg-white/20 rounded-xl flex items-center gap-3 px-4 transition-all text-sm font-bold border border-white/5 backdrop-blur-sm">
+              <Link href="/admin/projects" className="w-full h-12 bg-white/10 hover:bg-white/20 rounded-xl flex items-center gap-3 px-4 transition-all text-sm font-bold border border-white/5 backdrop-blur-sm">
                  <FolderKanban size={18} />
-                 Add New Project
-              </button>
-              <button className="w-full h-12 bg-white/10 hover:bg-white/20 rounded-xl flex items-center gap-3 px-4 transition-all text-sm font-bold border border-white/5 backdrop-blur-sm">
-                 <Users size={18} />
-                 Manage Team
-              </button>
+                 Manage Projects
+              </Link>
+              <Link href="/admin/news" className="w-full h-12 bg-white/10 hover:bg-white/20 rounded-xl flex items-center gap-3 px-4 transition-all text-sm font-bold border border-white/5 backdrop-blur-sm">
+                 <MessageSquare size={18} />
+                 Post News
+              </Link>
               <div className="pt-4 mt-4 border-t border-white/10">
                  <p className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2 underline decoration-accent underline-offset-4">System Status</p>
                  <div className="flex items-center justify-between text-xs font-medium">
@@ -103,7 +166,7 @@ export default function AdminDashboardPage() {
                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                        Supabase Online
                     </span>
-                    <span className="text-white/40">v1.2.x</span>
+                    <span className="text-white/40">Real-time Sync</span>
                  </div>
               </div>
            </CardContent>

@@ -9,6 +9,8 @@ import ProjectLocationMap from "@/components/projects/detail/ProjectLocationMap"
 
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
+import { getSiteConfig } from "@/app/actions/config";
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const { data: project } = await supabaseAdmin.from("projects").select("*").eq("slug", slug).single();
@@ -25,6 +27,7 @@ export default async function ProjectDetailSlugPage({ params }: { params: Promis
   const { slug } = await params;
   
   const { data: project } = await supabaseAdmin.from("projects").select("*").eq("slug", slug).single();
+  const config = await getSiteConfig();
 
   if (!project) {
     notFound();
@@ -32,7 +35,7 @@ export default async function ProjectDetailSlugPage({ params }: { params: Promis
 
   return (
     <>
-      <Header />
+      <Header config={config} />
       <main className="min-h-screen bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-20">
           <div className="flex flex-col lg:flex-row lg:gap-12 lg:items-start">
@@ -50,7 +53,7 @@ export default async function ProjectDetailSlugPage({ params }: { params: Promis
 
         <ProjectLocationMap project={project} />
       </main>
-      <Footer />
+      <Footer config={config} />
     </>
   );
 }

@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/Footer";
 import { getPublishedArticles } from "@/app/actions/news";
 import { Calendar, User, ArrowRight } from "lucide-react";
 
+import { getSiteConfig } from "@/app/actions/config";
+
 export const metadata = {
   title: "Latest News & Updates | Tripax Homes Ltd.",
   description: "Stay updated with the latest construction updates, award wins, and real estate news from Tripax Homes Ltd.",
@@ -13,10 +15,11 @@ export const metadata = {
 
 export default async function NewsPage() {
   const articles = await getPublishedArticles();
+  const config = await getSiteConfig();
 
   return (
     <>
-      <Header />
+      <Header config={config} />
       <main className="min-h-screen bg-white pt-32 pb-24 font-jakarta">
         <div className="container mx-auto px-6">
           {/* Header */}
@@ -105,7 +108,7 @@ export default async function NewsPage() {
           )}
         </div>
       </main>
-      <Footer />
+      <Footer config={config} />
     </>
   );
 }

@@ -6,21 +6,25 @@ import ContactInfoMap from "@/components/contact/ContactInfoMap";
 import ContactFormSection from "@/components/contact/ContactFormSection";
 import { Metadata } from "next";
 
+import { getSiteConfig } from "@/app/actions/config";
+
 export const metadata: Metadata = {
   title: "Contact Us | Tripax Homes Ltd.",
   description: "Get in touch with Tripax Homes Ltd. for premium real estate consultations, land development partnerships, and luxury apartment inquiries in Dhaka.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const config = await getSiteConfig();
+
   return (
     <>
-      <Header />
+      <Header config={config} />
       <main className="flex-1">
         <ContactHero />
-        <ContactInfoMap />
+        <ContactInfoMap config={config} />
         <ContactFormSection />
       </main>
-      <Footer />
+      <Footer config={config} />
     </>
   );
 }

@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <>
-      <Header />
+      <Header config={config} />
       <main className="flex-1">
         <Hero />
         <AboutSection />

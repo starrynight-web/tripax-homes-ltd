@@ -15,7 +15,8 @@ import {
   Image as ImageIcon,
   Loader2,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  BookOpen
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getAboutSections, saveAboutSection, getTeamMembers, saveTeamMember, deleteTeamMember } from "@/app/actions/about";
@@ -162,6 +163,87 @@ export default function AdminAboutPage() {
             >
               {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
               Save Hero Section
+            </button>
+          </div>
+        </AccordionSection>
+        
+        {/* WHO WE ARE */}
+        <AccordionSection 
+          id="who_we_are" 
+          label="Who We Are" 
+          icon={<BookOpen size={16} />} 
+          active={activeSection === "who_we_are"} 
+          onToggle={() => setActiveSection(s => s === "who_we_are" ? null : "who_we_are")}
+        >
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Section Tag</label>
+                <input 
+                  defaultValue={sections.who_we_are?.tag} 
+                  onBlur={(e) => setSections({...sections, who_we_are: {...sections.who_we_are, tag: e.target.value}})}
+                  placeholder="e.g. Our Story"
+                  className="w-full border border-slate-200 rounded-lg px-4 py-3 font-jakarta text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
+                />
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Section Title</label>
+                <input 
+                  defaultValue={sections.who_we_are?.title} 
+                  onBlur={(e) => setSections({...sections, who_we_are: {...sections.who_we_are, title: e.target.value}})}
+                  placeholder="e.g. Who We Are"
+                  className="w-full border border-slate-200 rounded-lg px-4 py-3 font-jakarta text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Paragraph 1</label>
+              <textarea 
+                defaultValue={sections.who_we_are?.text1} 
+                onBlur={(e) => setSections({...sections, who_we_are: {...sections.who_we_are, text1: e.target.value}})}
+                className="w-full border border-slate-200 rounded-lg px-4 py-3 font-jakarta text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 h-24" 
+              />
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Paragraph 2</label>
+              <textarea 
+                defaultValue={sections.who_we_are?.text2} 
+                onBlur={(e) => setSections({...sections, who_we_are: {...sections.who_we_are, text2: e.target.value}})}
+                className="w-full border border-slate-200 rounded-lg px-4 py-3 font-jakarta text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 h-24" 
+              />
+            </div>
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Full Story (Modal Content)</label>
+              <textarea 
+                defaultValue={sections.who_we_are?.fullStory} 
+                onBlur={(e) => setSections({...sections, who_we_are: {...sections.who_we_are, fullStory: e.target.value}})}
+                className="w-full border border-slate-200 rounded-lg px-4 py-3 font-jakarta text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 h-48" 
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <CloudinaryUpload 
+                label="Section Image" 
+                value={sections.who_we_are?.image_url} 
+                onUpload={(url) => setSections({...sections, who_we_are: {...sections.who_we_are, image_url: url}})} 
+                onRemove={() => setSections({...sections, who_we_are: {...sections.who_we_are, image_url: ""}})}
+              />
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">Video Embed URL (YouTube/Vimeo)</label>
+                <input 
+                  defaultValue={sections.who_we_are?.videoUrl} 
+                  onBlur={(e) => setSections({...sections, who_we_are: {...sections.who_we_are, videoUrl: e.target.value}})}
+                  placeholder="https://www.youtube.com/embed/..."
+                  className="w-full border border-slate-200 rounded-lg px-4 py-3 font-jakarta text-sm focus:outline-none focus:ring-2 focus:ring-primary/20" 
+                />
+              </div>
+            </div>
+            <button 
+              onClick={() => handleSaveSection("who_we_are", sections.who_we_are)} 
+              disabled={saving}
+              className="flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-lg font-montserrat font-bold text-xs tracking-widest uppercase hover:bg-primary/90 transition-colors"
+            >
+              {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+              Save Who We Are Section
             </button>
           </div>
         </AccordionSection>

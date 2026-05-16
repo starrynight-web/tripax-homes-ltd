@@ -3,35 +3,41 @@ import { MapPin, Phone, MessageCircle, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { RevealHeading } from "@/components/ui/RevealHeading";
 
-export default function ContactInfoMap() {
+export default function ContactInfoMap({ config }: { config?: any }) {
+  const primaryPhone = config?.primary_phone || "16760";
+  const ctaPhone = config?.cta_phone_number || "+880 1708 080822";
+  const email = config?.email_address || "hello@tripaxhomes.com";
+  const address = config?.office_address || "House-21, Road-04, Block-A, Bashundhara R/A, Dhaka-1229";
+  const mapsUrl = config?.maps_embed_url || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.09828551778!2d90.42293427618296!3d23.81508866211833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c64c7cae5087%3A0xc3fa595e1e19488a!2sTripax%20Properties!5e0!3m2!1sen!2sbd!4v1712160000000!5m2!1sen!2sbd";
+
   const contactDetails = [
     {
       icon: MapPin,
       title: "Our Location",
-      value: "Tripax Homes Ltd., Dhaka, Bangladesh",
-      detail: "House-21, Road-04, Block-A, Bashundhara R/A, Dhaka-1229",
-      href: "https://goo.gl/maps/tripax-homes-location-placeholder"
+      value: "Tripax Homes Ltd.",
+      detail: address,
+      href: "#"
     },
     {
       icon: Phone,
       title: "Hotline",
-      value: "16760",
+      value: primaryPhone,
       detail: "Available 24/7 for your enquiries",
-      href: "tel:16760"
+      href: `tel:${primaryPhone.replace(/\s+/g, "")}`
     },
     {
       icon: MessageCircle,
       title: "WhatsApp",
-      value: "+880 1708 080822",
+      value: ctaPhone,
       detail: "Chat with our sales team",
-      href: "https://wa.me/8801708080822"
+      href: `https://wa.me/${ctaPhone.replace(/[^\d]/g, "")}`
     },
     {
       icon: Mail,
       title: "Email Address",
-      value: "hello@tripaxhomes.com",
+      value: email,
       detail: "Send us your queries anytime",
-      href: "mailto:hello@tripaxhomes.com"
+      href: `mailto:${email}`
     }
   ];
 
@@ -93,7 +99,7 @@ export default function ContactInfoMap() {
           <div className="relative group rounded-2xl overflow-hidden shadow-2xl h-112.5 bg-slate-100 border border-primary/5">
             <div className="absolute inset-0 z-0 bg-slate-200 animate-pulse" />
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.09828551778!2d90.42293427618296!3d23.81508866211833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c64c7cae5087%3A0xc3fa595e1e19488a!2sTripax%20Properties!5e0!3m2!1sen!2sbd!4v1712160000000!5m2!1sen!2sbd" 
+              src={mapsUrl} 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
